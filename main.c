@@ -18,7 +18,7 @@ typedef struct {
 
 void startQuiz();
 void writeScore(char playerName[100], float score);
-// void displayScore();
+void displayScore();
 void showHelp();
 
 int main() {
@@ -38,7 +38,7 @@ int main() {
             startQuiz();
             break;
         case scores:
-            // displayScore();
+            displayScore();
             break;
         case help:
             showHelp();
@@ -454,4 +454,36 @@ void writeScore(char playerName[100], float score) {
     fprintf(fptr, "%s %.2f\n", playerName, score);
 
     fclose(fptr);
+}
+
+void displayScore() {
+    FILE *fptr;
+
+    char playerName[100];
+    float score;
+
+    fptr = fopen("scoreboard.txt", "r");
+
+    printf("---------------------------\n");
+
+    if (fptr == NULL){
+        printf("You haven't play the game yet\n");
+    }
+    else {
+        while (fscanf(fptr, "%s %f", playerName, &score) == 2){
+            printf("%s score is %.2f\n", playerName, score);
+        }
+    }
+
+    fclose(fptr);
+    printf("\n");
+    printf("Input any key to go back to main menu\n");
+    printf("---------------------------\n");
+
+    getchar();
+    switch (getchar()) {
+        default:
+            main();
+            break;
+    }
 }
